@@ -49,7 +49,9 @@ Magisk 和 APatch 用户需要自行确认设备内核满足 eBPF、BTF、kprobe
 普通用户可以先执行：
 
 ```sh
-su -c 'ls -lh /sys/kernel/btf/vmlinux'
+su
+ls -lh /sys/kernel/btf/vmlinux
+exit
 ```
 
 如果提示文件不存在，当前公开自助构建方案基本不支持这台设备。
@@ -57,10 +59,12 @@ su -c 'ls -lh /sys/kernel/btf/vmlinux'
 如果想进一步检查：
 
 ```sh
-su -c 'uname -a'
-su -c 'getprop ro.product.cpu.abi'
-su -c 'cat /proc/kallsyms | grep -E "(__sys_bind|__se_sys_bind|sys_bind|SyS_bind|__arm64_sys_bind)" | head'
-su -c 'command -v iptables && command -v ip6tables'
+su
+uname -a
+getprop ro.product.cpu.abi
+cat /proc/kallsyms | grep -E "(__sys_bind|__se_sys_bind|sys_bind|SyS_bind|__arm64_sys_bind)" | head
+command -v iptables && command -v ip6tables
+exit
 ```
 
 一般建议 Android 12 以后、内核 5.4 以后、有 `/sys/kernel/btf/vmlinux` 的 arm64 设备再尝试。这个版本线不是绝对要求，因为有些厂商会回移植 eBPF/BTF，也有些新内核会裁剪相关能力。
@@ -186,9 +190,11 @@ hideSceneport_module.zip
 重启后执行：
 
 ```sh
-su -c 'cat /data/adb/modules/hideSceneport/hideport.log'
-su -c 'cat /data/adb/modules/hideSceneport/hide_scene.log'
-su -c 'ps -A | grep hideport'
+su
+cat /data/adb/modules/hideSceneport/hideport.log
+cat /data/adb/modules/hideSceneport/hide_scene.log
+ps -A | grep hideport
+exit
 ```
 
 正常情况下，`hideport.log` 里应该能看到类似内容：
